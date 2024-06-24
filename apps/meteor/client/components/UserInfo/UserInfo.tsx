@@ -131,40 +131,12 @@ const UserInfo = ({
 						</InfoPanelField>
 					)}
 
-					{roles.length !== 0 && (
-						<InfoPanel.Field>
-							<InfoPanel.Label>{t('Roles')}</InfoPanel.Label>
-							<UserCardRoles>{roles}</UserCardRoles>
-						</InfoPanel.Field>
-					)}
-
-					{username && username !== name && (
-						<InfoPanel.Field>
-							<InfoPanel.Label>{t('Username')}</InfoPanel.Label>
-							<InfoPanel.Text data-qa='UserInfoUserName'>{username}</InfoPanel.Text>
-						</InfoPanel.Field>
-					)}
-
-					{Number.isInteger(utcOffset) && (
-						<InfoPanel.Field>
-							<InfoPanel.Label>{t('Local_Time')}</InfoPanel.Label>
-							<InfoPanel.Text>{utcOffset && <UTCClock utcOffset={utcOffset} />}</InfoPanel.Text>
-						</InfoPanel.Field>
-					)}
-
 					{bio && (
 						<InfoPanelField>
 							<InfoPanelLabel>{t('Bio')}</InfoPanelLabel>
 							<InfoPanelText withTruncatedText={false}>
 								<MarkdownText variant='inline' content={bio} />
 							</InfoPanelText>
-						</InfoPanelField>
-					)}
-
-					{Number.isInteger(utcOffset) && canViewAllInfo && (
-						<InfoPanelField>
-							<InfoPanelLabel>{t('Last_login')}</InfoPanelLabel>
-							<InfoPanelText>{lastLogin ? timeAgo(lastLogin) : t('Never')}</InfoPanelText>
 						</InfoPanelField>
 					)}
 
