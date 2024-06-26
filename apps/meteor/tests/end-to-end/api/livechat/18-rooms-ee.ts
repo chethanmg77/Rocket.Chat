@@ -17,7 +17,6 @@ import {
 	closeOmnichannelRoom,
 	fetchMessages,
 } from '../../../data/livechat/rooms';
-import { sleep } from '../../../data/livechat/utils';
 import { updatePermission, updateSetting } from '../../../data/permissions.helper';
 import { password } from '../../../data/user';
 import { createUser, deleteUser, login } from '../../../data/users.helper';
