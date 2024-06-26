@@ -299,9 +299,6 @@ import { IS_EE } from '../../../e2e/config/constants';
 			await placeRoomOnHold(room._id);
 			await sendMessage(room._id, 'test', visitor.token);
 
-			// wait for the room to be resumed since that logic is within callbacks
-			await sleep(500);
-
 			const updatedRoom = await getLivechatRoomInfo(room._id);
 			expect(updatedRoom).to.not.have.property('onHold');
 		});
