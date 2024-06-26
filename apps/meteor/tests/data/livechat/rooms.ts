@@ -17,7 +17,6 @@ import { getSettingValueById, restorePermissionToRoles, updateSetting } from '..
 import { adminUsername } from '../user';
 import { getRandomVisitorToken } from './users';
 import type { DummyResponse } from './utils';
-import { sleep } from './utils';
 
 export const createLivechatRoom = async (visitorToken: string, extraRoomParams?: Record<string, string>): Promise<IOmnichannelRoom> => {
 	const urlParams = new URLSearchParams();
@@ -68,7 +67,7 @@ export const deleteVisitor = async (token: string): Promise<void> => {
 	await request.delete(api(`livechat/visitor/${token}`));
 };
 
-export const takeInquiry = async (inquiryId: string, agentCredentials?: Credentials): Promise<void> => {
+export const takeInquiry = async (inquiryId: string, agentCredentials?: IUserCredentialsHeader): Promise<void> => {
 	const userId = agentCredentials ? agentCredentials['X-User-Id'] : credentials['X-User-Id'];
 
 	await request
@@ -155,7 +154,10 @@ export const createManager = (overrideUsername?: string): Promise<ILivechatAgent
 			});
 	});
 
-export const makeAgentAvailable = async (overrideCredentials?: Credentials): Promise<Response> => {
+export const makeAgentAvailable = async (overrideCredentials?: {
+	'X-Auth-Token': string | undefined;
+	'X-User-Id': string | undefined;
+}): Promise<Response> => {
 	await restorePermissionToRoles('view-l-room');
 	await request
 		.post(api('users.setStatus'))
@@ -323,9 +325,6 @@ export const startANewLivechatRoomAndTakeIt = async ({
 	const routingMethodChanged = false;
 	if (currentRoutingMethod !== 'Manual_Selection') {
 		await updateSetting('Livechat_Routing_Method', 'Manual_Selection');
-
-		// wait for routing algorithm to stop
-		await sleep(1000);
 	}
 
 	const visitor = await createVisitor(departmentId);
@@ -337,9 +336,6 @@ export const startANewLivechatRoomAndTakeIt = async ({
 
 	if (routingMethodChanged) {
 		await updateSetting('Livechat_Routing_Method', currentRoutingMethod);
-
-		// wait for routing algorithm to start
-		await sleep(1000);
 	}
 
 	return { room, visitor };

@@ -2023,8 +2023,6 @@ describe('[Rooms]', () => {
 					},
 				});
 
-			// need to wait for the username update finish
-			await sleep(300);
 
 			await request
 				.get(api('subscriptions.getOne'))
@@ -2048,9 +2046,6 @@ describe('[Rooms]', () => {
 						name: `changed.name.${testUser.username}`,
 					},
 				});
-
-			// need to wait for the name update finish
-			await sleep(300);
 
 			await request
 				.get(api('subscriptions.getOne'))
